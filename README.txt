@@ -1,0 +1,1 @@
+Just a repository for writing some code in order to learn Scheme. Probably not interesting to anyone.

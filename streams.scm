@@ -27,7 +27,9 @@
 (define the-empty-stream '())
 (define zeros (cons-s 0 zeros))
 (define ones (cons-s 1 ones))
-
 (define twos (zip-with-s + ones ones))
 
-(take-s 10 twos)
+(define natural-numbers
+  (cons-s 0 (zip-with-s + ones natural-numbers)))
+
+(take-s 10 natural-numbers)

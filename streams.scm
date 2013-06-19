@@ -1,4 +1,4 @@
-; Basic stream operations
+; Stream operations
 
 (define-syntax cons-s
   (syntax-rules ()
@@ -7,8 +7,6 @@
 (define car-s car)
 (define (cdr-s stream) (force (cdr stream)))
 (define empty-s? null?)
-
-; More advanced operations
 
 (define (take-s n stream)
   (if (zero? n)
@@ -22,14 +20,31 @@
     (cons-s (fn e1 e2) 
 	  (zip-with-s fn (cdr-s stream1) (cdr-s stream2)))))
 
-; Some simple streams
+(define (map-s fn stream)
+  (cons-s (fn (car-s stream))
+	  (map-s fn (cdr-s stream))))
+
+(define (filter-s fn stream)
+  (let ((first (car-s stream))
+	(rest (cdr-s stream)))
+    (if (fn first)
+	(cons-s first (filter-s fn rest))
+	(filter-s fn rest))))
+
+; Example streams
 
 (define the-empty-stream '())
 (define zeros (cons-s 0 zeros))
 (define ones (cons-s 1 ones))
 (define twos (zip-with-s + ones ones))
 
-(define natural-numbers
-  (cons-s 0 (zip-with-s + ones natural-numbers)))
+(define (natural-numbers-from n)
+  (cons-s n (natural-numbers-from (+ 1 n))))
 
-(take-s 10 natural-numbers)
+(define natural-numbers
+  (natural-numbers-from 0))
+
+(define fibs
+  (cons-s 0
+	  (cons-s 1
+		  (zip-with-s + (cdr-s fibs) fibs))))

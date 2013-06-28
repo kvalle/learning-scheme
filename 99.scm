@@ -1,5 +1,5 @@
-;;; Solutiosn to the ninety-nine lisp problems
-;;; http://www.ic.unicamp.br/~meidanis/courses/mc336/2006s2/funcional/L-99_Ninety-Nine_Lisp_Problems.html
+;;; Solutions to the ninety-nine scheme problems
+;;; http://community.schemewiki.org/?ninety-nine-scheme-problems
 
 ; Used for testing the solutions
 (load "asserts.scm")
@@ -87,22 +87,29 @@
 
 (assertEq
  '(1 2 3)
- (flatten (list 1 2 '(3))))
+ (flatten '(1 2 (3))))
 
 (assertEq
  '(a b c d e f g h)
- (flatten (list 'a 'b (list 'c (list 'd) 'e) (list 'f 'g) 'h)))
+ (flatten '(a b (c (d) e) (f g) h)))
 
 ;; P8. Eliminate consecutive duplicates of list elements.
 
 (define (remove-dups lst)
-  "todo")
+  (fold-right (lambda (next acc) 
+		(cond ((null? acc) (cons next acc))
+		      ((equal? next (car acc)) acc)
+		      (else (cons next acc))))
+	      '()
+	      lst))
 
-(dont assertEq
+(assertEq '() (remove-dups '()))
+
+(assertEq
  '(a b c d)
  (remove-dups '(a a b c c c d)))
 
-(dont assertEq
+(assertEq
  '(a b a b)
  (remove-dups '(a a a b a a b b b)))
 

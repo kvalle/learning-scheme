@@ -8,6 +8,6 @@
 	  (else n))))
 
 (define (fizzbuzz n)
-  (map fb (iota n)))
+  (map fb (cdr (iota (+ 1 n)))))
 
-(fizzbuzz 20)
+(display (fizzbuzz 20))

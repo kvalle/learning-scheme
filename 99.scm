@@ -1,6 +1,9 @@
 ;;; Solutions to the ninety-nine scheme problems
 ;;; http://community.schemewiki.org/?ninety-nine-scheme-problems
 
+;; Implementation should work with MIT Scheme.
+;; Might just happen to work with other Schemes as well.
+
 ; Used for testing the solutions
 (load "asserts.scm")
 
@@ -48,8 +51,8 @@
 
 ;; P5. Reverse a list.
 
-(define (reverse-list xs) 
-    (fold cons '() xs)) 
+(define (reverse-list xs)
+  (fold-left (lambda (x y) (cons y x)) '() xs))
 
 (assertEq
  '(e d c b a)
@@ -75,7 +78,7 @@
   (define (merge next acc)
     (cond ((list? next) (append acc (flatten next)))
 	  (else (append acc (list next)))))
-  (fold merge '() lst))
+  (fold-left merge '() lst))
 
 (assertEq
  '()
@@ -114,6 +117,16 @@
  (remove-dups '(a a a b a a b b b)))
 
 ;; P9. Pack consecutive duplicates of list elements into sublists.
+
+(define (pack-dups lst)
+  "todo")
+
+(assertEq '() (pack-dups '()))
+
+(dont assertEq
+ '(a (b b b) c)
+ (pack-dups '(a b b b c)))
+
 ;; P10. Run-length encoding of a list.
 ;; P11. Modified run-length encoding.
 ;; P12. Decode a run-length encoded list.
